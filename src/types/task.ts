@@ -7,6 +7,7 @@ export interface Task {
 }
 
 export interface Label {
+  id: string;
   text: string;
   color: string;
 }

@@ -1,14 +1,19 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Task } from "../../types/task";
 import LabelItem from "./LabelItem";
 import { HiOutlinePencil } from "react-icons/hi";
+import Button from "../layout/Button";
 
 interface CardProps {
   task: Task;
 }
 
+type CardStatus = "normal" | "edit";
+
 const Card: FC<CardProps> = ({ task }) => {
+  const [status, setStatus] = useState<CardStatus>("normal");
+
   return (
     <article className="flex items-stretch w-full shadow-card group">
       <div
@@ -24,19 +29,48 @@ const Card: FC<CardProps> = ({ task }) => {
               ))}
             </div>
 
-            <button
-              type="button"
-              aria-label="Edit"
-              className="leading-none text-gray-400 cursor-pointer p-1 
+            {status === "normal" && (
+              <button
+                onClick={() => setStatus("edit")}
+                type="button"
+                aria-label="Edit"
+                className="leading-none text-gray-400 cursor-pointer p-1 
                 hover:bg-gray-800/[.25] text-sm rounded-md hover:text-gray-100 
                 transition-all duration-100 -translate-y-[7%] opacity-0 group-hover:opacity-100"
-            >
-              <HiOutlinePencil />
-            </button>
+              >
+                <HiOutlinePencil />
+              </button>
+            )}
           </div>
         )}
 
-        <div className="px-2 text-gray-200 text-justify">{task.title}</div>
+        {status === "normal" && (
+          <div className="px-2 text-gray-200 text-justify">{task.title}</div>
+        )}
+
+        {status === "edit" && (
+          <>
+            <textarea
+              rows={2}
+              autoComplete="off"
+              className="mx-2 px-1 text-gray-200 outline-none rounded-sm
+                bg-gray-800 border-2 border-gray-600 resize-none
+                focus:border-gray-500 active:border-gray-500 transition-all
+                duration-150"
+            >
+              {task.title}
+            </textarea>
+
+            <div className="flex items-center gap-2 mx-2 text-sm">
+              <Button variant="primary" label="Save" onClick={() => {}} />
+              <Button
+                variant="secondary"
+                label="Cancel"
+                onClick={() => setStatus("normal")}
+              />
+            </div>
+          </>
+        )}
       </div>
 
       <div

@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .textarea-scrollbar::-webkit-scrollbar {
+    @apply w-[.75rem];
+  }
+
+  .textarea-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-700;
+  }
+
+  .textarea-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-500 rounded-md transition-all border-[3px] 
+      border-solid border-transparent bg-clip-content;
+  }
+}

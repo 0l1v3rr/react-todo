@@ -7,16 +7,17 @@ import Card from "./Card";
 interface CardContainerProps {
   tasks: Task[];
   status: TaskStatus;
+  editTask: (id: string, task: Task) => void;
 }
 
-const CardContainer: FC<CardContainerProps> = ({ tasks, status }) => {
+const CardContainer: FC<CardContainerProps> = ({ tasks, status, editTask }) => {
   return (
     <Container className="px-4 py-2">
       <ContainerTitle text={status} />
 
       <>
         {tasks.map((task) => (
-          <Card task={task} key={task.id} />
+          <Card task={task} editTask={editTask} key={task.id} />
         ))}
       </>
     </Container>

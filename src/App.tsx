@@ -8,7 +8,7 @@ import CardContainer from "./components/cards/CardContainer";
 
 const App = () => {
   const [labels] = useState<Label[]>(defaultLabels);
-  const [tasks] = useState<Task[]>([
+  const [tasks, setTasks] = useState<Task[]>([
     {
       id: "1",
       position: 1,
@@ -40,10 +40,19 @@ const App = () => {
   ]);
 
   const filterTasks = useCallback(
-    (status: TaskStatus) => {
-      return [...tasks]
+    (status: TaskStatus) =>
+      [...tasks]
         .filter((t) => t.status === status)
-        .sort((a, b) => b.position - a.position);
+        .sort((a, b) => b.position - a.position),
+    [tasks]
+  );
+
+  const editTask = useCallback(
+    (id: string, task: Task) => {
+      const index = tasks.findIndex((task) => task.id === id);
+      const newArr = [...tasks];
+      newArr[index] = task;
+      setTasks(newArr);
     },
     [tasks]
   );
@@ -62,13 +71,24 @@ const App = () => {
         <Labels labels={labels} />
       </Flex>
 
-      <Flex className="items-start">
-        <CardContainer status="To Do" tasks={filterTasks("To Do")} />
+      <Flex className="items-start flex-col md:flex-row">
         <CardContainer
+          editTask={editTask}
+          status="To Do"
+          tasks={filterTasks("To Do")}
+        />
+
+        <CardContainer
+          editTask={editTask}
           status="In Progress"
           tasks={filterTasks("In Progress")}
         />
-        <CardContainer status="Done" tasks={filterTasks("Done")} />
+
+        <CardContainer
+          editTask={editTask}
+          status="Done"
+          tasks={filterTasks("Done")}
+        />
       </Flex>
     </main>
   );

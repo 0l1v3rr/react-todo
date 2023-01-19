@@ -10,7 +10,7 @@ const ContainerTitle: FC<ContainerTitleProps> = (props) => {
   return (
     <div
       className={twMerge(
-        "text-lg font-semibold text-gray-100 leading-none mx-1",
+        "text-lg font-semibold text-gray-100 leading-none my-1",
         props.className
       )}
     >

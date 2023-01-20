@@ -50,7 +50,30 @@ const Card: FC<CardProps> = ({ task, editTask }) => {
         )}
 
         {status === "normal" && (
-          <div className="px-2 text-gray-200">{task.title}</div>
+          <div className="relative">
+            <div
+              className={twMerge(
+                "text-gray-200",
+                task.labels.length < 1 ? "pl-2 pr-6" : "px-2"
+              )}
+            >
+              {task.title}
+            </div>
+
+            {task.labels.length < 1 && (
+              <button
+                onClick={() => setStatus("edit")}
+                type="button"
+                aria-label="Edit"
+                className="leading-none text-gray-400 cursor-pointer p-1 
+                hover:bg-gray-800/[.25] text-sm rounded-md hover:text-gray-100 
+                  transition-all duration-100 opacity-0 right-1 top-0
+                  group-hover:opacity-100 absolute"
+              >
+                <HiOutlinePencil />
+              </button>
+            )}
+          </div>
         )}
 
         {status === "edit" && (

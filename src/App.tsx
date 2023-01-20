@@ -82,26 +82,17 @@ const App = () => {
       </Flex>
 
       <Flex className="items-start flex-col md:flex-row">
-        <CardContainer
-          newTask={newTask}
-          editTask={editTask}
-          status="To Do"
-          tasks={filterTasks("To Do")}
-        />
-
-        <CardContainer
-          newTask={newTask}
-          editTask={editTask}
-          status="In Progress"
-          tasks={filterTasks("In Progress")}
-        />
-
-        <CardContainer
-          newTask={newTask}
-          editTask={editTask}
-          status="Done"
-          tasks={filterTasks("Done")}
-        />
+        <>
+          {(["To Do", "In Progress", "Done"] as const).map((status) => (
+            <CardContainer
+              newTask={newTask}
+              editTask={editTask}
+              status={status}
+              tasks={filterTasks(status)}
+              key={status}
+            />
+          ))}
+        </>
       </Flex>
     </main>
   );

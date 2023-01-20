@@ -18,7 +18,7 @@ const App = () => {
       title: "Test task to do",
     },
     {
-      id: "3",
+      id: "4",
       position: 3,
       labels: [labels[4], labels[3]],
       status: "To Do",
@@ -32,7 +32,7 @@ const App = () => {
       title: "Test task 2",
     },
     {
-      id: "2",
+      id: "3",
       position: 4,
       labels: [labels[2]],
       status: "Done",
@@ -89,6 +89,7 @@ const App = () => {
               editTask={editTask}
               status={status}
               tasks={filterTasks(status)}
+              labels={labels}
               key={status}
             />
           ))}

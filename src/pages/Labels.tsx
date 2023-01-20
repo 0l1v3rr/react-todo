@@ -16,7 +16,7 @@ const Labels: FC<LabelsProps> = (props) => {
 
       <Flex className="justify-start flex-wrap">
         {props.labels.map((label) => (
-          <LabelItem label={label} key={label.id} />
+          <LabelItem label={label} key={label.id} variant="normal" />
         ))}
       </Flex>
     </Container>

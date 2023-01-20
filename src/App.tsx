@@ -5,6 +5,7 @@ import { Label, Task, TaskStatus } from "./types/task";
 import { useState, useCallback } from "react";
 import { defaultLabels } from "./const/labels";
 import CardContainer from "./components/cards/CardContainer";
+import { createUUID } from "./utils/uuid";
 
 const App = () => {
   const [labels] = useState<Label[]>(defaultLabels);
@@ -26,13 +27,13 @@ const App = () => {
     {
       id: "2",
       position: 2,
-      labels: [labels[1]],
+      labels: [],
       status: "In Progress",
       title: "Test task 2",
     },
     {
       id: "2",
-      position: 2,
+      position: 4,
       labels: [labels[2]],
       status: "Done",
       title: "Test task 2",
@@ -43,7 +44,7 @@ const App = () => {
     (status: TaskStatus) =>
       [...tasks]
         .filter((t) => t.status === status)
-        .sort((a, b) => b.position - a.position),
+        .sort((a, b) => a.position - b.position),
     [tasks]
   );
 
@@ -56,6 +57,15 @@ const App = () => {
     },
     [tasks]
   );
+
+  const newTask = useCallback((task: Task) => {
+    setTasks((prev) => {
+      task.position = prev.length + 1;
+      task.id = createUUID();
+
+      return [...prev, task];
+    });
+  }, []);
 
   return (
     <main
@@ -73,18 +83,21 @@ const App = () => {
 
       <Flex className="items-start flex-col md:flex-row">
         <CardContainer
+          newTask={newTask}
           editTask={editTask}
           status="To Do"
           tasks={filterTasks("To Do")}
         />
 
         <CardContainer
+          newTask={newTask}
           editTask={editTask}
           status="In Progress"
           tasks={filterTasks("In Progress")}
         />
 
         <CardContainer
+          newTask={newTask}
           editTask={editTask}
           status="Done"
           tasks={filterTasks("Done")}

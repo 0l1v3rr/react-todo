@@ -60,10 +60,11 @@ const Card: FC<CardProps> = ({ task, editTask }) => {
               rows={3}
               autoComplete="off"
               defaultValue={task.title}
+              autoFocus={true}
               className="mx-2 px-1 text-gray-200 outline-none rounded-sm
                 bg-gray-800 border-2 border-gray-600 resize-none
                 focus:border-gray-500 active:border-gray-500 transition-all
-                duration-150 textarea-scrollbar"
+                duration-150 textarea-scrollbar shadow-card"
             />
 
             <div className="flex items-center gap-2 mx-2 text-sm">

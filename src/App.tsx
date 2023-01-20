@@ -70,7 +70,7 @@ const App = () => {
   return (
     <main
       className="bg-gray-900 w-full min-h-screen overflow-x-hidden 
-        flex flex-col items-center py-5 px-4 sm:px-12 md:px-20 gap-2"
+        flex flex-col items-center py-5 px-4 sm:px-10 md:px-14 lg:px-24 gap-2"
     >
       <Flex className="items-stretch flex-col md:flex-row">
         <Meter

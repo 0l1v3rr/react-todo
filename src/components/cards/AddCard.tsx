@@ -3,6 +3,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useOuterClick } from "../../hooks/useOuterClick";
 import { Task, TaskStatus } from "../../types/task";
 import Button from "../layout/Button";
+import ResizeTextarea from "react-textarea-autosize";
 
 type Status = "normal" | "edit";
 
@@ -35,16 +36,17 @@ const AddCard: FC<AddCardProps> = (props) => {
           ref={containerRef}
           className="flex items-center flex-col w-full gap-2"
         >
-          <textarea
+          <ResizeTextarea
             ref={textAreaRef}
-            rows={3}
+            minRows={3}
+            maxRows={10}
             autoComplete="off"
             defaultValue=""
             placeholder="Enter a title for this card..."
             autoFocus={true}
             className="px-1 text-gray-200 outline-none rounded-sm
               bg-gray-800 border-2 border-gray-600 resize-none
-              focus:border-gray-500 active:border-gray-500 transition-all
+              focus:border-gray-500 active:border-gray-500 transition-colors
               duration-150 textarea-scrollbar shadow-card w-full placeholder:text-gray-500"
           />
 

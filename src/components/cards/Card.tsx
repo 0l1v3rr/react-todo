@@ -5,6 +5,7 @@ import LabelItem from "./LabelItem";
 import { HiOutlinePencil } from "react-icons/hi";
 import Button from "../layout/Button";
 import { useOuterClick } from "../../hooks/useOuterClick";
+import ResizeTextarea from "react-textarea-autosize";
 
 interface CardProps {
   task: Task;
@@ -119,15 +120,16 @@ const Card: FC<CardProps> = ({ task, editTask, labels }) => {
               ))}
             </div>
 
-            <textarea
+            <ResizeTextarea
               ref={textAreaRef}
-              rows={3}
+              minRows={1}
+              maxRows={10}
               autoComplete="off"
               defaultValue={task.title}
               autoFocus={true}
               className="px-1 text-gray-200 outline-none rounded-sm
                 bg-gray-800 border-2 border-gray-600 resize-none
-                focus:border-gray-500 active:border-gray-500 transition-all
+                focus:border-gray-500 active:border-gray-500 transition-colors
                 duration-150 textarea-scrollbar shadow-card"
             />
 

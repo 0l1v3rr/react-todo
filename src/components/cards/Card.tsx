@@ -58,7 +58,7 @@ const Card: FC<CardProps> = ({ task, editTask, labels }) => {
         `relative flex items-stretch w-full shadow-card group 
         after:content[''] after:left-0 after:top-0 after:w-full after:h-full 
         after:z-10 after:bg-gray-900 after:absolute after:border-2 
-        after:border-gray-700  after:pointer-events-none`,
+        after:border-gray-700  after:pointer-events-none opacity-100 z-10`,
         isDragged ? "after:opacity-100" : "after:opacity-0"
       )}
     >
@@ -197,7 +197,8 @@ const Card: FC<CardProps> = ({ task, editTask, labels }) => {
         onMouseEnter={() => setIsDraggable(true)}
         onMouseLeave={() => setIsDraggable(false)}
         className={twMerge(
-          "w-4 border-r-4 rounded-tr-sm rounded-br-sm cursor-grab",
+          "w-4 border-r-4 rounded-tr-sm rounded-br-sm",
+          status === "normal" ? "cursor-grab" : "",
           task.status === "To Do" ? "bg-red-500 border-red-600" : "",
           task.status === "In Progress"
             ? "bg-yellow-500 border-yellow-600"

@@ -1,4 +1,4 @@
-import { FC, useState, useRef, useEffect } from "react";
+import React, { FC, useState, useRef, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { Label, Task } from "../../types/task";
 import LabelItem from "./LabelItem";
@@ -16,6 +16,9 @@ interface CardProps {
 type CardStatus = "normal" | "edit";
 
 const Card: FC<CardProps> = ({ task, editTask, labels }) => {
+  const [isDraggable, setIsDraggable] = useState<boolean>(false);
+  const [isDragged, setIsDragged] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<CardStatus>("normal");
   const [selectedLabelIds, setSelectedLabelIds] = useState<string[]>(() => {
     return task.labels.map((label) => label.id);
@@ -34,8 +37,31 @@ const Card: FC<CardProps> = ({ task, editTask, labels }) => {
     [task]
   );
 
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    const { left, top } = e.currentTarget.getBoundingClientRect();
+    e.dataTransfer.setDragImage(
+      e.currentTarget,
+      e.clientX - left,
+      e.clientY - top
+    );
+
+    setTimeout(() => setIsDragged(true), 0);
+  };
+
   return (
-    <article className="flex items-stretch w-full shadow-card group">
+    <article
+      ref={ref}
+      draggable={isDraggable && status === "normal"}
+      onDragStart={handleDragStart}
+      onDragEnd={() => setIsDragged(false)}
+      className={twMerge(
+        `relative flex items-stretch w-full shadow-card group 
+        after:content[''] after:left-0 after:top-0 after:w-full after:h-full 
+        after:z-10 after:bg-gray-900 after:absolute after:border-2 
+        after:border-gray-700  after:pointer-events-none`,
+        isDragged ? "after:opacity-100" : "after:opacity-0"
+      )}
+    >
       <div
         ref={containerRef}
         className="flex flex-col gap-1 bg-gray-700 border-2 
@@ -168,6 +194,8 @@ const Card: FC<CardProps> = ({ task, editTask, labels }) => {
       </div>
 
       <div
+        onMouseEnter={() => setIsDraggable(true)}
+        onMouseLeave={() => setIsDraggable(false)}
         className={twMerge(
           "w-4 border-r-4 rounded-tr-sm rounded-br-sm cursor-grab",
           task.status === "To Do" ? "bg-red-500 border-red-600" : "",

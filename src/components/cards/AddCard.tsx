@@ -24,7 +24,7 @@ const AddCard: FC<AddCardProps> = (props) => {
           onClick={() => setStatus("edit")}
           className="flex items-center justify-start cursor-pointer px-2 py-1 text-gray-400 
           hover:bg-gray-700 border-2 border-gray-700 rounded-sm shadow-card gap-2
-          hover:border-gray-600 transition-all duration-150 hover:text-gray-200"
+          hover:border-gray-600 transition-all duration-150 hover:text-gray-200 select-none"
         >
           <AiOutlinePlus />
           <span>Add card</span>

@@ -6,16 +6,25 @@ import { HiOutlinePencil } from "react-icons/hi";
 import Button from "../layout/Button";
 import { useOuterClick } from "../../hooks/useOuterClick";
 import ResizeTextarea from "react-textarea-autosize";
+import { TransferData } from "../../types/dataTransfer";
 
 interface CardProps {
   task: Task;
   editTask: (id: string, task: Task) => void;
   labels: Label[];
+  setDraggedData: (data: TransferData | undefined) => void;
+  index: number;
 }
 
 type CardStatus = "normal" | "edit";
 
-const Card: FC<CardProps> = ({ task, editTask, labels }) => {
+const Card: FC<CardProps> = ({
+  task,
+  editTask,
+  labels,
+  setDraggedData,
+  index,
+}) => {
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
   const [isDragged, setIsDragged] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -38,12 +47,23 @@ const Card: FC<CardProps> = ({ task, editTask, labels }) => {
   );
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    e.dataTransfer.clearData();
+
     const { left, top } = e.currentTarget.getBoundingClientRect();
     e.dataTransfer.setDragImage(
       e.currentTarget,
       e.clientX - left,
       e.clientY - top
     );
+
+    const data: TransferData = {
+      height: e.currentTarget.clientHeight,
+      status: task.status,
+      index,
+    };
+
+    e.dataTransfer.setData("application/json", JSON.stringify(data));
+    setDraggedData(data);
 
     setTimeout(() => setIsDragged(true), 0);
   };
@@ -53,13 +73,13 @@ const Card: FC<CardProps> = ({ task, editTask, labels }) => {
       ref={ref}
       draggable={isDraggable && status === "normal"}
       onDragStart={handleDragStart}
-      onDragEnd={() => setIsDragged(false)}
+      onDragEnd={() => {
+        setIsDragged(false);
+        setDraggedData(undefined);
+      }}
       className={twMerge(
-        `relative flex items-stretch w-full shadow-card group 
-        after:content[''] after:left-0 after:top-0 after:w-full after:h-full 
-        after:z-10 after:bg-gray-900 after:absolute after:border-2 
-        after:border-gray-700  after:pointer-events-none opacity-100 z-10`,
-        isDragged ? "after:opacity-100" : "after:opacity-0"
+        "relative items-stretch w-full shadow-card group opacity-100 z-10",
+        isDragged ? "hidden" : "flex"
       )}
     >
       <div

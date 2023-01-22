@@ -6,8 +6,10 @@ import { useState, useCallback } from "react";
 import { defaultLabels } from "./const/labels";
 import CardContainer from "./components/cards/CardContainer";
 import { createUUID } from "./utils/uuid";
+import { TransferData } from "./types/dataTransfer";
 
 const App = () => {
+  const [draggedData, setDraggedData] = useState<TransferData>();
   const [labels] = useState<Label[]>(defaultLabels);
   const [tasks, setTasks] = useState<Task[]>([
     {
@@ -89,6 +91,8 @@ const App = () => {
             status={status}
             tasks={filterTasks(status)}
             labels={labels}
+            draggedData={draggedData}
+            setDraggedData={(data) => setDraggedData(data)}
             key={status}
           />
         ))}

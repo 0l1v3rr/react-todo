@@ -4,7 +4,7 @@
 
 @layer base {
   .textarea-scrollbar::-webkit-scrollbar {
-    @apply w-[.75rem];
+    @apply w-3;
   }
 
   .textarea-scrollbar::-webkit-scrollbar-track {
@@ -13,6 +13,19 @@
 
   .textarea-scrollbar::-webkit-scrollbar-thumb {
     @apply bg-gray-500 rounded-md transition-all border-[3px] 
+      border-solid border-transparent bg-clip-content;
+  }
+
+  body::-webkit-scrollbar {
+    @apply w-[.8rem];
+  }
+
+  body::-webkit-scrollbar-track {
+    @apply bg-gray-800;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    @apply bg-gray-700 rounded-lg transition-all border-[3px] 
       border-solid border-transparent bg-clip-content;
   }
 }

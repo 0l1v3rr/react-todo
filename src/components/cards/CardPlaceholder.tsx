@@ -8,7 +8,12 @@ interface CardPlaceholderProps {
   setDraggedData: (data: TransferData | undefined) => void;
   status: TaskStatus;
   index: number;
-  shiftTasks: (toStatus: TaskStatus, taskId: Task["id"], index: number) => void;
+  shiftTasks: (
+    toStatus: TaskStatus,
+    taskId: Task["id"],
+    index: number,
+    originalIndex: number
+  ) => void;
 }
 
 const CardPlaceholder: FC<CardPlaceholderProps> = (props) => {
@@ -35,7 +40,8 @@ const CardPlaceholder: FC<CardPlaceholderProps> = (props) => {
     props.shiftTasks(
       props.status,
       props.draggedData?.task.id || "0",
-      props.index
+      props.index,
+      props.draggedData?.index || 0
     );
 
     props.setDraggedData(undefined);

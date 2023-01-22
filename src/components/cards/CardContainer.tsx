@@ -16,7 +16,12 @@ interface CardContainerProps {
   setDraggedData: (data: TransferData | undefined) => void;
   newTask: (task: Task) => void;
   editTask: (id: string, task: Task) => void;
-  shiftTasks: (toStatus: TaskStatus, taskId: Task["id"], index: number) => void;
+  shiftTasks: (
+    toStatus: TaskStatus,
+    taskId: Task["id"],
+    index: number,
+    originalIndex: number
+  ) => void;
 }
 
 const CardContainer: FC<CardContainerProps> = ({

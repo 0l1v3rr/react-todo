@@ -60,6 +60,39 @@ const App = () => {
     [tasks]
   );
 
+  const shiftTasks = useCallback(
+    (toStatus: TaskStatus, taskId: Task["id"], index: number) => {
+      const filteredTasks = filterTasks(toStatus);
+
+      // the index of the task in the FULL tasks array
+      const taskIndex = tasks.findIndex((task) => task.id === taskId);
+
+      const updatedTask: Task = {
+        ...tasks[taskIndex],
+        status: toStatus,
+        position: index === -1 ? 0 : filteredTasks[index].position,
+      };
+
+      const newTasks = [...tasks];
+      newTasks.splice(taskIndex, 1);
+      newTasks.push(updatedTask);
+
+      // for (let i = index; i < filteredTasks.length; i++) {
+      //   const currentIndex = tasks.findIndex(
+      //     (task) => task.id === filteredTasks[i].id
+      //   );
+      //   const { position } = newTasks[currentIndex];
+      //   newTasks[currentIndex] = {
+      //     ...newTasks[currentIndex],
+      //     position: position + 1,
+      //   };
+      // }
+
+      setTasks(newTasks);
+    },
+    [tasks, filterTasks, setTasks]
+  );
+
   const newTask = useCallback((task: Task) => {
     setTasks((prev) => {
       task.position = prev.length + 1;
@@ -88,6 +121,7 @@ const App = () => {
           <CardContainer
             newTask={newTask}
             editTask={editTask}
+            shiftTasks={shiftTasks}
             status={status}
             tasks={filterTasks(status)}
             labels={labels}

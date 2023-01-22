@@ -16,6 +16,7 @@ interface CardContainerProps {
   setDraggedData: (data: TransferData | undefined) => void;
   newTask: (task: Task) => void;
   editTask: (id: string, task: Task) => void;
+  shiftTasks: (toStatus: TaskStatus, taskId: Task["id"], index: number) => void;
 }
 
 const CardContainer: FC<CardContainerProps> = ({
@@ -26,12 +27,19 @@ const CardContainer: FC<CardContainerProps> = ({
   labels,
   draggedData,
   setDraggedData,
+  shiftTasks,
 }) => {
   return (
     <Container className="px-4 py-2 gap-0">
       <ContainerTitle text={status} />
 
-      <CardPlaceholder draggedData={draggedData} status={status} index={-1} />
+      <CardPlaceholder
+        draggedData={draggedData}
+        status={status}
+        index={-1}
+        setDraggedData={setDraggedData}
+        shiftTasks={shiftTasks}
+      />
 
       <Flex className="flex-col gap-0">
         {tasks.map((task, i) => (
@@ -48,6 +56,8 @@ const CardContainer: FC<CardContainerProps> = ({
               draggedData={draggedData}
               status={status}
               index={i}
+              setDraggedData={setDraggedData}
+              shiftTasks={shiftTasks}
             />
           </div>
         ))}

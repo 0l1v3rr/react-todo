@@ -26,7 +26,8 @@ const Meter: FC<MeterProps> = ({ todoCount, inProgressCount, doneCount }) => {
 
       <div className="w-full h-4 rounded-sm bg-gray-600 border-2 border-gray-700 relative">
         <div
-          className="h-3 bg-red-500 absolute rounded-tl-sm rounded-bl-sm"
+          className="h-3 bg-red-500 absolute rounded-tl-sm rounded-bl-sm 
+            transition-all duration-500 ease-out"
           style={{
             width: `${todo}%`,
           }}
@@ -34,7 +35,7 @@ const Meter: FC<MeterProps> = ({ todoCount, inProgressCount, doneCount }) => {
 
         <div
           className={twMerge(
-            `h-3 bg-yellow-500 absolute`,
+            "h-3 bg-yellow-500 absolute transition-all duration-500 ease-out",
             todo === 0 ? "rounded-tl-sm rounded-bl-sm" : "",
             done === 0 ? "rounded-tr-sm rounded-br-sm" : ""
           )}
@@ -45,7 +46,8 @@ const Meter: FC<MeterProps> = ({ todoCount, inProgressCount, doneCount }) => {
         />
 
         <div
-          className="h-3 bg-green-500 absolute rounded-tr-sm rounded-br-sm"
+          className="h-3 bg-green-500 absolute rounded-tr-sm rounded-br-sm 
+            transition-all duration-500 ease-out"
           style={{
             width: `${done}%`,
             left: `${todo + inProgress}%`,

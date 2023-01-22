@@ -59,6 +59,7 @@ const Card: FC<CardProps> = ({
     const data: TransferData = {
       height: e.currentTarget.clientHeight,
       status: task.status,
+      task,
       index,
     };
 

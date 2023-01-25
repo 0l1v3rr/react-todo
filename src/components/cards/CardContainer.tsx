@@ -16,6 +16,7 @@ interface CardContainerProps {
   setDraggedData: (data: TransferData | undefined) => void;
   newTask: (task: Task) => void;
   editTask: (id: string, task: Task) => void;
+  deleteTask: (id: Task["id"]) => void;
   shiftTasks: (
     toStatus: TaskStatus,
     taskId: Task["id"],
@@ -33,6 +34,7 @@ const CardContainer: FC<CardContainerProps> = ({
   draggedData,
   setDraggedData,
   shiftTasks,
+  deleteTask,
 }) => {
   return (
     <Container className="px-4 py-2 gap-0">
@@ -52,6 +54,7 @@ const CardContainer: FC<CardContainerProps> = ({
             <Card
               task={task}
               editTask={editTask}
+              deleteTask={deleteTask}
               labels={labels}
               index={i}
               setDraggedData={(data) => setDraggedData(data)}

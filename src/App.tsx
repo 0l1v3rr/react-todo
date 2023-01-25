@@ -8,7 +8,8 @@ import { useTasksData } from "./hooks/useTasksData";
 
 const App = () => {
   const [draggedData, setDraggedData] = useState<TransferData>();
-  const { newTask, shiftTasks, editTask, filterTasks, labels } = useTasksData();
+  const { newTask, shiftTasks, editTask, filterTasks, deleteTask, labels } =
+    useTasksData();
 
   return (
     <main
@@ -30,6 +31,7 @@ const App = () => {
             newTask={newTask}
             editTask={editTask}
             shiftTasks={shiftTasks}
+            deleteTask={deleteTask}
             status={status}
             tasks={filterTasks(status)}
             labels={labels}

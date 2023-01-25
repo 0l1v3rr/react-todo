@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { Label, Task } from "../../types/task";
 import LabelItem from "./LabelItem";
 import { HiOutlinePencil } from "react-icons/hi";
+import { MdDeleteOutline } from "react-icons/md";
 import Button from "../layout/Button";
 import { useOuterClick } from "../../hooks/useOuterClick";
 import ResizeTextarea from "react-textarea-autosize";
@@ -13,6 +14,7 @@ interface CardProps {
   editTask: (id: string, task: Task) => void;
   labels: Label[];
   setDraggedData: (data: TransferData | undefined) => void;
+  deleteTask: (id: Task["id"]) => void;
   index: number;
 }
 
@@ -23,6 +25,7 @@ const Card: FC<CardProps> = ({
   editTask,
   labels,
   setDraggedData,
+  deleteTask,
   index,
 }) => {
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
@@ -165,6 +168,20 @@ const Card: FC<CardProps> = ({
                   className="cursor-pointer"
                 />
               ))}
+
+              <button
+                onClick={() => {
+                  deleteTask(task.id);
+                  setStatus("normal");
+                }}
+                type="button"
+                aria-label="Delete"
+                className="leading-none text-gray-400 cursor-pointer p-1 
+                  hover:bg-gray-800/[.25] text-sm rounded-md hover:text-red-400 
+                  transition-all duration-100 -translate-y-[7%] ml-auto"
+              >
+                <MdDeleteOutline />
+              </button>
             </div>
 
             <ResizeTextarea

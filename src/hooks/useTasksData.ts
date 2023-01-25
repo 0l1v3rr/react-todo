@@ -156,11 +156,16 @@ export const useTasksData = () => {
     [getNextPosition]
   );
 
+  const deleteTask = useCallback((id: Task["id"]) => {
+    setTasks((prev) => [...prev].filter((task) => task.id !== id));
+  }, []);
+
   return {
     newTask,
     shiftTasks,
     editTask,
     filterTasks,
+    deleteTask,
     tasks,
     labels,
   };

@@ -72,15 +72,48 @@ export const useTasksData = () => {
       const taskIndex = tasks.findIndex((task) => task.id === taskId);
 
       const filteredTasks = filterTasks(toStatus);
-      const fromStatusTasks = filterTasks(tasks[taskIndex].status);
+      const newTasks = [...tasks];
 
+      // create the updated task
       const updatedTask: Task = {
         ...tasks[taskIndex],
         status: toStatus,
         position: index + 2,
       };
 
-      const newTasks = [...tasks];
+      // if the from status and the to status is the same
+      if (tasks[taskIndex].status === toStatus) {
+        for (let i = originalIndex; i < filterTasks.length; i++) {
+          const idx = newTasks.findIndex(
+            (task) => task.id === filteredTasks[i].id
+          );
+
+          const { position } = newTasks[idx];
+          newTasks[idx] = { ...newTasks[idx], position: position - 1 };
+        }
+
+        // remove and push the updated task
+        newTasks.splice(taskIndex, 1);
+        filteredTasks.splice(index + 1, 0, updatedTask);
+
+        // increment the position by 1 "under" the new element
+        for (let i = index + 1; i < filteredTasks.length; i++) {
+          if (tasks[taskIndex].id === filteredTasks[i].id) continue;
+
+          const idx = newTasks.findIndex(
+            (task) => task.id === filteredTasks[i].id
+          );
+
+          const { position } = newTasks[idx];
+          newTasks[idx] = { ...newTasks[idx], position: position + 1 };
+        }
+
+        newTasks.push(updatedTask);
+        setTasks(newTasks);
+        return;
+      }
+
+      const fromStatusTasks = filterTasks(tasks[taskIndex].status);
 
       // increment the position by 1 "under" the new element
       for (let i = index + 1; i < filteredTasks.length; i++) {

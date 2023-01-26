@@ -10,8 +10,10 @@ You can try the application out by visiting [this](https://0l1v3rr.github.io/rea
 # 1. Clone the repo
 git clone https://github.com/0l1v3rr/react-todo.git
 cd wordle-clone
+
 # 2. Install the necessary dependencies
 npm i
+
 # 3. Run the app
 npm start
 ```

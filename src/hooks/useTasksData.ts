@@ -1,40 +1,12 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { defaultLabels } from "../const/labels";
 import { Label, Task, TaskStatus } from "../types/task";
 import { createUUID } from "../utils/uuid";
+import { useLocalStorage } from "./useLocalStorage";
 
 export const useTasksData = () => {
-  const [labels] = useState<Label[]>(defaultLabels);
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: "1",
-      position: 1,
-      labels: [labels[0]],
-      status: "To Do",
-      title: "Test task to do",
-    },
-    {
-      id: "4",
-      position: 2,
-      labels: [labels[4], labels[3]],
-      status: "To Do",
-      title: "Test task with longer title and emoji and rice 🥰",
-    },
-    {
-      id: "2",
-      position: 1,
-      labels: [],
-      status: "In Progress",
-      title: "Test task 2",
-    },
-    {
-      id: "3",
-      position: 1,
-      labels: [labels[2]],
-      status: "Done",
-      title: "Test task 2",
-    },
-  ]);
+  const [labels] = useLocalStorage<Label[]>("labels", defaultLabels);
+  const [tasks, setTasks] = useLocalStorage<Task[]>("tasks", []);
 
   const filterTasks = useCallback(
     (status: TaskStatus) =>
@@ -58,7 +30,7 @@ export const useTasksData = () => {
       newArr[index] = task;
       setTasks(newArr);
     },
-    [tasks]
+    [tasks, setTasks]
   );
 
   const shiftTasks = useCallback(
@@ -153,12 +125,15 @@ export const useTasksData = () => {
         return [...prev, task];
       });
     },
-    [getNextPosition]
+    [getNextPosition, setTasks]
   );
 
-  const deleteTask = useCallback((id: Task["id"]) => {
-    setTasks((prev) => [...prev].filter((task) => task.id !== id));
-  }, []);
+  const deleteTask = useCallback(
+    (id: Task["id"]) => {
+      setTasks((prev) => [...prev].filter((task) => task.id !== id));
+    },
+    [setTasks]
+  );
 
   return {
     newTask,
